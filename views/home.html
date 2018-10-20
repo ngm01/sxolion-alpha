@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta>
+        <title>Sχolion | Home</title>
+    </head>
+    <body>
+        <h1>Welcome to Sχolion.</h1>
+        <h2>To get started, search for a book below.</h2>
+
+        <div>
+            <label for="title">Book title:</label>
+            <input type="text" name="title">
+            <button onclick="getBooks()">Search</button>
+        </div>
+        <div id='search-results-options'>
+        <button id="add-to-collection" onclick='addBooksToCollection()'>Add selected to collection: </button>
+        <select id='collections-list'>
+        </select>
+        <button>Select all</button>
+        <button>Unselect all</button>
+        </div>
+        <div id="book-search-results">
+
+        </div>
+        <script src="/_js/home.js"></script>
+    </body>
+</html>
