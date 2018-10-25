@@ -7,22 +7,30 @@
     <body>
         <h1>Welcome to Sχolion.</h1>
         <h2>To get started, search for books below.</h2>
+        <book-search>
+            <div>
+                <label>Book title:</label>
+                <input type="text" name="title">
+                <button onclick="getBooks()">Search</button>
+            </div>
+            <div id='search-results-options'>
+            <button id="add-to-collection" onclick='addBooksToCollection()'>Add selected to collection: </button>
+            <select id='collections-list'>
+            </select>
+            <button>Select all</button>
+            <button>Unselect all</button>
+            </div>
+            <div id="book-search-results">
 
+            </div>
+    </book-search>
+    <collection-management>
         <div>
-            <label for="title">Book title:</label>
-            <input type="text" name="title">
-            <button onclick="getBooks()">Search</button>
+            <label>Create a new collection:</label>
+            <input type="text" name="new-collection">
+            <button onclick="createCollection()">Create Collection</button>
         </div>
-        <div id='search-results-options'>
-        <button id="add-to-collection" onclick='addBooksToCollection()'>Add selected to collection: </button>
-        <select id='collections-list'>
-        </select>
-        <button>Select all</button>
-        <button>Unselect all</button>
-        </div>
-        <div id="book-search-results">
-
-        </div>
+    </collection-management>
         <script src="/_js/home.js"></script>
     </body>
 </html>

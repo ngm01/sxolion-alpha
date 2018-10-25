@@ -1,9 +1,16 @@
 const mongoose = require('mongoose');
+const Book = require('./book');
 
 var Collection = mongoose.model('Collection', {
-    user: {
+    title: {
         type: String,
-        require: true
-    }
-
+        required: true
+    },
+    // books: {
+    //     type: [Book]
+    // }
 })
+
+module.exports = {
+    Collection
+}

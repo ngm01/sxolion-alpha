@@ -21,6 +21,22 @@ var getBooks = () => {
         });
 }
 
+var createCollection = ()=>{
+    let newCollection  = document.querySelector('input[name=new-collection]').value;
+    console.log(newCollection);
+    fetch('http://localhost:3000/collections/create', {
+        method: 'post',
+        body: JSON.stringify({newCollectionTitle: newCollection}),
+        headers:{
+            'Content-Type': 'application/json'
+          }
+    }).then((res)=>{
+        return res.json();
+    }).then((data)=>{
+        console.log("createCollection complete:", data);
+    })
+}
+
 var generateBooksList = (books)=>{
     if(books){
         booksList = "<ul>"

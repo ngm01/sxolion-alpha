@@ -1,7 +1,9 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const mongoose = require('./db/mongoose');
 const googleBooksApiRequest = require('./googlebooksapi');
+const {Collection} = require('./models/collection')
 
 const port = process.env.PORT || 3000;
 
@@ -20,6 +22,7 @@ app.get('/', (req, res) => {
     })
 })
 
+//google books search
 app.get('/searchBooks', (req, res)=>{
     var titleSearch = req.query.title;
     googleBooksApiRequest.googleBooksApiRequest(titleSearch).then((googleApiResponse)=>{
@@ -27,6 +30,32 @@ app.get('/searchBooks', (req, res)=>{
         res.send(books);
     })
 })
+
+//REST routes
+
+//create collection
+app.post('/collections/create', (req, res)=>{
+    var requestBody = req.body;
+    console.log("Look a POST:", requestBody);
+    res.send(200, {stuff: "some stuff"});
+    // var collection = new Collection({
+    //     title: req.body.title
+    // });
+    // collection.save().then((success)=>{
+    //     console.log(success);
+    // }, (err)=>{
+    //     res.status(400).send(err);
+    //     console.log("Error:", err)
+    // })
+})
+
+//collections -- read one
+
+//collections -- read all
+
+// update Collection -- add books
+// app.post('/collections/update/addBooks')
+
 
 
 app.listen(port, ()=>{
