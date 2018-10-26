@@ -37,16 +37,15 @@ app.get('/searchBooks', (req, res)=>{
 app.post('/collections/create', (req, res)=>{
     var requestBody = req.body;
     console.log("Look a POST:", requestBody);
-    res.send(200, {stuff: "some stuff"});
-    // var collection = new Collection({
-    //     title: req.body.title
-    // });
-    // collection.save().then((success)=>{
-    //     console.log(success);
-    // }, (err)=>{
-    //     res.status(400).send(err);
-    //     console.log("Error:", err)
-    // })
+    var collection = new Collection({
+        title: req.body.newCollectionTitle
+    });
+    collection.save().then((success)=>{
+        console.log(success);
+    }, (err)=>{
+        res.status(400).send(err);
+        console.log("Error:", err)
+    })
 })
 
 //collections -- read one
