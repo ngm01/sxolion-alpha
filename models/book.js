@@ -4,8 +4,8 @@ var Book = mongoose.model('Book', {
     title: {
         type: String
     },
-    author: {
-        type: String
+    authors: {
+        type: [String]
     },
     isbn13: {
         type: String

@@ -37,6 +37,25 @@ var createCollection = ()=>{
     })
 }
 
+var createBook = (bookRecord) =>{
+    fetch('http://localhost:3000/books/create', {
+        method: 'post',
+        body: JSON.stringify({
+            title: bookRecord.volumeInfo.title,
+            authors: bookRecord.volumeInfo.authors,
+            isbn13: bookRecord.volumeInfo.industryIdentifiers[0].identifier,
+            googleBooksId: bookRecord.id
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then((res)=>{
+        return res.json();
+    }).then((data)=>{
+        console.log("createBook complete:", data);
+    })
+}
+
 var generateBooksList = (books)=>{
     if(books){
         booksList = "<ul>"
@@ -64,8 +83,6 @@ var generateSelectOption = (collection)=>{
 }
 
 var addBooksToCollection = ()=>{
-    //TODO:
-    //get array of selected book ids from document
     var selectedBooks = document.querySelectorAll('#book-search-results li input:checked'),
     fullBookRecords = [];
     
@@ -77,10 +94,10 @@ var addBooksToCollection = ()=>{
             }
         })
     })
-    console.log(fullBookRecords);
-    //get selected collection from document
-    //get books by id from state.books
-    //
+    //console.log(fullBookRecords);
+    fullBookRecords.forEach((book)=>{
+        createBook(book);
+    })
 
 }
 

@@ -3,7 +3,8 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const mongoose = require('./db/mongoose');
 const googleBooksApiRequest = require('./googlebooksapi');
-const {Collection} = require('./models/collection')
+const {Collection} = require('./models/collection');
+const {Book} = require('./models/book');
 
 const port = process.env.PORT || 3000;
 
@@ -33,10 +34,10 @@ app.get('/searchBooks', (req, res)=>{
 
 //REST routes
 
-//create collection
+//CREATE collection
 app.post('/collections/create', (req, res)=>{
     var requestBody = req.body;
-    console.log("Look a POST:", requestBody);
+    console.log("Creating new collection:", requestBody);
     var collection = new Collection({
         title: req.body.newCollectionTitle
     });
@@ -48,13 +49,41 @@ app.post('/collections/create', (req, res)=>{
     })
 })
 
-//collections -- read one
+// READ ONE collection
 
-//collections -- read all
+// READ ALL collections
 
-// update Collection -- add books
+// UPDATE collection
 // app.post('/collections/update/addBooks')
 
+
+//DELETE collection
+
+//BOOKS CRUD
+
+//CREATE book
+app.post('/books/create', (req, res)=>{
+    console.log("Creating new book:", req.body);
+    var book = new Book({
+        title: req.body.title,
+        authors: req.body.authors,
+        isbn13: req.body.isbn13,
+        googleBooksId: req.body.googleBooksId
+    });
+    book.save().then((success)=>{
+        res.status(200).send(success);
+    }, (err)=>{
+        res.status(400).send(err);
+    })
+})
+
+//READ ONE book
+
+//READ ALL books
+
+//UPDATE book
+
+//DELETE book
 
 
 app.listen(port, ()=>{
