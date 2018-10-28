@@ -6,9 +6,8 @@ var Collection = mongoose.model('Collection', {
         type: String,
         required: true
     },
-    // books: {
-    //     type: [Book]
-    // }
+    books: [{type:mongoose.Schema.Types.ObjectId, ref: 'Book'}]
+    
 })
 
 module.exports = {

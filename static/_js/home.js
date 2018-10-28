@@ -37,6 +37,7 @@ var createCollection = ()=>{
     })
 }
 
+//TODO: make this a Promise, so that we can grab the results.
 var createBook = (bookRecord) =>{
     fetch('http://localhost:3000/books/create', {
         method: 'post',
@@ -52,7 +53,8 @@ var createBook = (bookRecord) =>{
     }).then((res)=>{
         return res.json();
     }).then((data)=>{
-        console.log("createBook complete:", data);
+        console.log("createBook complete:", data._id);
+        return data._id;
     })
 }
 
@@ -84,8 +86,7 @@ var generateSelectOption = (collection)=>{
 
 var addBooksToCollection = ()=>{
     var selectedBooks = document.querySelectorAll('#book-search-results li input:checked'),
-    fullBookRecords = [];
-    
+    fullBookRecords = [];  
     selectedBooks.forEach((bookSelection)=>{
         state.books.forEach((bookRecord)=>{
             if(bookSelection.value == bookRecord.id){
@@ -95,9 +96,12 @@ var addBooksToCollection = ()=>{
         })
     })
     //console.log(fullBookRecords);
+    var newBook_ids = [];
     fullBookRecords.forEach((book)=>{
-        createBook(book);
+        let foo = createBook(book);
+        console.log(foo);
     })
+
 
 }
 
