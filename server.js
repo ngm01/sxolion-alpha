@@ -52,9 +52,17 @@ app.post('/collections/create', (req, res)=>{
 // READ ONE collection
 
 // READ ALL collections
+//app.get('/collections/readAll', (req, res)=>{
+//    
+//})
 
 // UPDATE collection
-// app.post('/collections/update/addBooks')
+app.post('/collections/update/addBooks', (req, res)=>{
+    //TODO: 1. Pull array of book _id's from req
+    //      2. Pull collection _id from req
+    //      3. Convert _id's to mongo objectId's
+    //      4. Store array as collection.books
+})
 
 
 //DELETE collection
@@ -63,7 +71,6 @@ app.post('/collections/create', (req, res)=>{
 
 //CREATE book
 app.post('/books/create', (req, res)=>{
-    console.log("Creating new book:", req.body);
     var book = new Book({
         title: req.body.title,
         authors: req.body.authors,
@@ -71,6 +78,7 @@ app.post('/books/create', (req, res)=>{
         googleBooksId: req.body.googleBooksId
     });
     book.save().then((success)=>{
+        console.log("Book created:", success);
         res.status(200).send(success);
     }, (err)=>{
         res.status(400).send(err);
