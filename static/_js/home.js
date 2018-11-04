@@ -93,20 +93,33 @@ var addBooksToCollection = ()=>{
     selectedBooks.forEach((bookSelection)=>{
         state.books.forEach((bookRecord)=>{
             if(bookSelection.value == bookRecord.id){
-                console.log(bookRecord.volumeInfo.title);
+                //console.log("Title: " +bookRecord.volumeInfo.title);
                 fullBookRecords.push(bookRecord);
             }
         })
     })
-    //console.log(fullBookRecords);
-    var newBook_ids = [];
-    fullBookRecords.forEach((book)=>{
+    newBook_idArray(fullBookRecords).then((_idArray)=>{
+        Promise.all(_idArray).then((ids)=>{
+            //Array.isArray(ids) // true
+            // TODO: next steps:
+            // hand this array of _id's off to the
+            // /collections/update route on the server.
+            console.log(ids);
+        })
+    });
 
-        createBook(book).then((res)=>{
-            console.log(res);
-        });
+}
+var newBook_idArray = (bookRecords)=>{
+    return new Promise((resolve, reject)=>{
+        let newBook_ids = [];
+        bookRecords.forEach((book)=>{
+            newBook_ids.push(createBook(book).then((res)=>{
+                //res returns the _objectID
+                return res;
+            }));
+        })
+        resolve(newBook_ids);
+        reject("Error creating newBook_ids.");
     })
-
-
 }
 

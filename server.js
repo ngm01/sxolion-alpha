@@ -57,7 +57,7 @@ app.post('/collections/create', (req, res)=>{
 //})
 
 // UPDATE collection
-app.post('/collections/update/addBooks', (req, res)=>{
+app.post('/collections/update/', (req, res)=>{
     //TODO: 1. Pull array of book _id's from req
     //      2. Pull collection _id from req
     //      3. Convert _id's to mongo objectId's
