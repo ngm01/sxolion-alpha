@@ -58,10 +58,9 @@ app.post('/collections/create', (req, res)=>{
 
 // UPDATE collection
 app.post('/collections/update/', (req, res)=>{
-    //TODO: 1. Pull array of book _id's from req
-    //      2. Pull collection _id from req
-    //      3. Convert _id's to mongo objectId's
-    //      4. Store array as collection.books
+    var requestBody = req.body;
+    console.log("Collection update: " + JSON.stringify(requestBody, undefined, 2));
+    res.status(200).send("Successfully updated collection.");
 })
 
 

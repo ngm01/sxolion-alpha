@@ -37,6 +37,18 @@ var createCollection = ()=>{
     })
 }
 
+var updateCollection = (ids, collection)=>{
+    fetch('http://localhost:3000/collections/update', {
+        method: 'post',
+        body: JSON.stringify({ids: ids, collection: collection}),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then((res)=>{
+        console.log("Got a response updating a collection:" + res);
+    })
+}
+
 var createBook = (bookRecord) =>{
     return new Promise((resolve, reject)=>{
         fetch('http://localhost:3000/books/create', {
@@ -89,6 +101,7 @@ var generateSelectOption = (collection)=>{
 
 var addBooksToCollection = ()=>{
     var selectedBooks = document.querySelectorAll('#book-search-results li input:checked'),
+    selectedCollection = document.getElementById('collections-list').value;
     fullBookRecords = [];  
     selectedBooks.forEach((bookSelection)=>{
         state.books.forEach((bookRecord)=>{
@@ -104,7 +117,7 @@ var addBooksToCollection = ()=>{
             // TODO: next steps:
             // hand this array of _id's off to the
             // /collections/update route on the server.
-            console.log(ids);
+            updateCollection(ids, selectedCollection);
         })
     });
 
