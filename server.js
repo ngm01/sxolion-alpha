@@ -3,8 +3,8 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const mongoose = require('./db/mongoose');
 const googleBooksApiRequest = require('./googlebooksapi');
-const {Collection} = require('./models/collection');
-const {Book} = require('./models/book');
+var {Collection} = require('./models/collection');
+var {Book} = require('./models/book');
 
 const port = process.env.PORT || 3000;
 
@@ -20,6 +20,14 @@ var books = [];
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname + '/views/home.html'), {
         books: books
+    })
+})
+
+app.get('/collections', (req, res)=>{
+    Collection.find().then((collections)=>{
+        res.send(collections);
+    }, (e)=>{
+        res.status(400).send(err);
     })
 })
 

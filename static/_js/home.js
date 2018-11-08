@@ -1,15 +1,23 @@
 var state = {
     books: [],
-    collections: [{name: 'Dune Saga', id: 'aDkB4KOAfO', books: []}, {name: 'Classic Horror', id: 'hb39niJSPs', books: []}, {name: 'History of Philosophy', id: 'O1rkQT2tdq', books: []}]
 }
 
+//Need loading animations to hide this stuff...
 document.addEventListener('DOMContentLoaded', ()=>{
-    let collectionsList = "";
-    state.collections.forEach((collection)=>{
-        collectionsList += generateSelectOption(collection);
-    })
-    document.getElementById('collections-list').innerHTML = collectionsList;
+    getCollections();
 })
+
+var getCollections = ()=>{
+    fetch('http://localhost:3000/collections').then((res)=>{
+        return res.json();
+    }).then((usersCollections)=>{
+        collectionsList = '';
+        usersCollections.forEach((collection)=>{
+            collectionsList += generateSelectOption(collection);
+        })
+        document.getElementById('collections-list').innerHTML = collectionsList;
+    })
+}
 
 var getBooks = () => {
     var titleSearch = document.querySelector('input[name=title]').value;
@@ -96,7 +104,7 @@ var generateBookListItem = (bookData) => {
 }
 
 var generateSelectOption = (collection)=>{
-    return `<option value="${collection.id}">${collection.name}</option>`
+    return `<option value="${collection.id}">${collection.title}</option>`
 }
 
 var addBooksToCollection = ()=>{
