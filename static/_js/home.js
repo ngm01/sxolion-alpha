@@ -53,7 +53,7 @@ var updateCollection = (ids, collection)=>{
             'Content-Type': 'application/json'
         }
     }).then((res)=>{
-        console.log("Got a response updating a collection:" + res);
+        console.log("Got a response updating a collection: " + res);
     })
 }
 
@@ -104,12 +104,13 @@ var generateBookListItem = (bookData) => {
 }
 
 var generateSelectOption = (collection)=>{
-    return `<option value="${collection.id}">${collection.title}</option>`
+    return `<option value="${collection._id}">${collection.title}</option>`
 }
 
 var addBooksToCollection = ()=>{
     var selectedBooks = document.querySelectorAll('#book-search-results li input:checked'),
     selectedCollection = document.getElementById('collections-list').value;
+    console.log("Collection:" + selectedCollection);
     fullBookRecords = [];  
     selectedBooks.forEach((bookSelection)=>{
         state.books.forEach((bookRecord)=>{

@@ -67,8 +67,27 @@ app.post('/collections/create', (req, res)=>{
 // UPDATE collection
 app.post('/collections/update/', (req, res)=>{
     var requestBody = req.body;
-    console.log("Collection update: " + JSON.stringify(requestBody, undefined, 2));
-    res.status(200).send("Successfully updated collection.");
+    //console.log("Collection update: " + JSON.stringify(requestBody, undefined, 2));
+    console.log("Collection _id:" + requestBody.collection);
+    console.log("Book _id list: " + requestBody.ids);
+    var newBooks = requestBody.ids;
+    Collection.findById(requestBody.collection, (err, doc)=>{
+        if(err){
+            console.log("Error finding collection: " + err);
+        } else {
+            console.log("Current doc: "+ doc);
+            var updatedBooks = doc.books.concat(newBooks);
+            Collection.findByIdAndUpdate(doc._id, {books: updatedBooks}, {new: true}, function(err, model){
+                if(err){
+                    console.log("Error updating collection: " + err);
+                    res.status(500).send("");
+                } else {
+                    console.log("Model: " + model);
+                    res.status(200).send("Successfully updated collection.");
+                }
+            })
+        }
+    })
 })
 
 
