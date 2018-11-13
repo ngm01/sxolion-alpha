@@ -15,7 +15,9 @@ var getCollections = ()=>{
         usersCollections.forEach((collection)=>{
             collectionsList += generateSelectOption(collection);
         })
-        document.getElementById('collections-list').innerHTML = collectionsList;
+        document.getElementById('collections-list-add').innerHTML = collectionsList;
+        document.getElementById('collections-list-display').innerHTML += collectionsList;
+
     })
 }
 
@@ -144,4 +146,15 @@ var newBook_idArray = (bookRecords)=>{
         reject("Error creating newBook_ids.");
     })
 }
+ var displayOneCollection = ()=>{
+     //get one collection, display it's title and books
+     let collectionId = document.getElementById("collections-list-display").value;
+     if(collectionId != 'instructions'){
+        fetch(`http://localhost:3000/collections/${collectionId}`).then((res)=>{
+            return res.json();
+        }).then((data)=>{
+            console.log(data);
+        })
+     }
 
+ }

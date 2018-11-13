@@ -23,14 +23,6 @@ app.get('/', (req, res) => {
     })
 })
 
-app.get('/collections', (req, res)=>{
-    Collection.find().then((collections)=>{
-        res.send(collections);
-    }, (e)=>{
-        res.status(400).send(err);
-    })
-})
-
 //google books search
 app.get('/searchBooks', (req, res)=>{
     var titleSearch = req.query.title;
@@ -58,11 +50,18 @@ app.post('/collections/create', (req, res)=>{
 })
 
 // READ ONE collection
+app.get('/collections/:collectionId', (req, res)=>{
+    let collectionId = req.params.collectionId;
+})
 
 // READ ALL collections
-//app.get('/collections/readAll', (req, res)=>{
-//    
-//})
+app.get('/collections', (req, res)=>{
+    Collection.find().then((collections)=>{
+        res.send(collections);
+    }, (e)=>{
+        res.status(400).send(err);
+    })
+})
 
 // UPDATE collection
 app.post('/collections/update/', (req, res)=>{

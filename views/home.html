@@ -15,7 +15,7 @@
             </div>
             <div id='search-results-options'>
             <button id="add-to-collection" onclick='addBooksToCollection()'>Add selected to collection: </button>
-            <select id='collections-list'>
+            <select id='collections-list-add'>
             </select>
             <button>Select all</button>
             <button>Unselect all</button>
@@ -25,11 +25,17 @@
             </div>
     </book-search>
     <collection-management>
+        <hr>
+        <h2>Collections Management</h2>
         <div>
             <label>Create a new collection:</label>
             <input type="text" name="new-collection">
             <button onclick="createCollection()">Create Collection</button>
         </div>
+        <select onchange="displayOneCollection()" id='collections-list-display'>
+            <option value="instructions">Select a collection from your list.</option>
+        </select>
+
     </collection-management>
         <script src="/_js/home.js"></script>
     </body>
