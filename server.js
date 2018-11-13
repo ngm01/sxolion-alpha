@@ -111,6 +111,9 @@ app.post('/books/create', (req, res)=>{
 })
 
 //READ ONE book
+app.get('/books/:bookId', (req, res)=>{
+    let bookId = req.params.bookId;
+})
 
 //READ ALL books
 
