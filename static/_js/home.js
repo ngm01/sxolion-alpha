@@ -33,7 +33,6 @@ var getBooks = () => {
 
 var createCollection = ()=>{
     let newCollection  = document.querySelector('input[name=new-collection]').value;
-    console.log(newCollection);
     fetch('http://localhost:3000/collections/create', {
         method: 'post',
         body: JSON.stringify({newCollectionTitle: newCollection}),
@@ -151,6 +150,7 @@ var newBook_idArray = (bookRecords)=>{
      let collectionId = document.getElementById("collections-list-display").value;
      if(collectionId != 'instructions'){
         fetch(`http://localhost:3000/collections/${collectionId}`).then((res)=>{
+            console.log(res);
             return res.json();
         }).then((data)=>{
             console.log(data);

@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const mongoose = require('./db/mongoose');
+const ObjectId = require('mongoose').Types.ObjectId;
 const googleBooksApiRequest = require('./googlebooksapi');
 var {Collection} = require('./models/collection');
 var {Book} = require('./models/book');
@@ -52,7 +53,39 @@ app.post('/collections/create', (req, res)=>{
 // READ ONE collection
 app.get('/collections/:collectionId', (req, res)=>{
     let collectionId = req.params.collectionId;
+    console.log(collectionId);
+    if(!ObjectId.isValid(collectionId)){
+        res.status(404).send();
+    } else {
+        Collection.findById(collectionId).then((collection)=>{
+            populateBookArray(collection.books);
+            res.status(200).send(collection);
+        }, (err)=>{
+            console.log(err);
+            res.status(500).send(err);
+        })
+    }    
 })
+
+function populateBookArray(bookArray){
+    Promise.all(bookArray.map((bookId)=>{
+        simpleFindBook(bookId);
+    })).then((fullArr)=>{
+        console.log("Books info:", fullArr);
+        return fullArr;
+    })
+}
+
+var simpleFindBook = (bookId) =>{
+        return new Promise((resolve, reject)=>{
+            Book.findById(bookId).then((book)=>{
+            resolve(book);
+        }, (err)=>{
+            console.log(err);
+            reject("Didn't find book.");
+        })
+    })
+}
 
 // READ ALL collections
 app.get('/collections', (req, res)=>{
@@ -110,9 +143,18 @@ app.post('/books/create', (req, res)=>{
     })
 })
 
-//READ ONE book
+//READ ONE book -- skeletal version
 app.get('/books/:bookId', (req, res)=>{
     let bookId = req.params.bookId;
+    if(!ObjectId.isValid(bookId)){
+        res.status(404).send();
+    } else {
+        Book.findById(bookId).then((success)=>{
+            res.send(success);
+        }, (err)=>{
+            res.status(500).send(err);
+        })
+    }
 })
 
 //READ ALL books
