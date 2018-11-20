@@ -152,9 +152,8 @@ var newBook_idArray = (bookRecords)=>{
         fetch(`http://localhost:3000/collections/${collectionId}`).then((res)=>{
             console.log(res);
             return res.json();
-        }).then((data)=>{
-            console.log(data);
+        }).then((fullCollection)=>{
+            console.log(fullCollection);
         })
      }
-
  }

@@ -58,8 +58,12 @@ app.get('/collections/:collectionId', (req, res)=>{
         res.status(404).send();
     } else {
         Collection.findById(collectionId).then((collection)=>{
-            populateBookArray(collection.books);
-            res.status(200).send(collection);
+            populateBookArray(collection.books).then((populatedBooks=>{
+                Promise.all(populatedBooks).then((books)=>{
+                    collection.books = books;
+                    res.status(200).send(collection);
+                })
+            }))
         }, (err)=>{
             console.log(err);
             res.status(500).send(err);
@@ -67,23 +71,17 @@ app.get('/collections/:collectionId', (req, res)=>{
     }    
 })
 
-function populateBookArray(bookArray){
-    Promise.all(bookArray.map((bookId)=>{
-        simpleFindBook(bookId);
-    })).then((fullArr)=>{
-        console.log("Books info:", fullArr);
-        return fullArr;
-    })
-}
-
-var simpleFindBook = (bookId) =>{
-        return new Promise((resolve, reject)=>{
-            Book.findById(bookId).then((book)=>{
-            resolve(book);
-        }, (err)=>{
-            console.log(err);
-            reject("Didn't find book.");
+//Why does this work??
+var populateBookArray = (bookIds)=>{
+    return new Promise((resolve, reject)=>{
+        let populatedArray = [];
+        bookIds.forEach((bookId)=>{
+            populatedArray.push(Book.findById(bookId).exec().then((doc)=>{
+                return doc;
+            }))
         })
+        resolve(populatedArray);
+        reject("Error populating books array.");
     })
 }
 
