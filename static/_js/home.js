@@ -110,7 +110,7 @@ var generateSelectOption = (collection)=>{
 
 var addBooksToCollection = ()=>{
     var selectedBooks = document.querySelectorAll('#book-search-results li input:checked'),
-    selectedCollection = document.getElementById('collections-list').value;
+    selectedCollection = document.getElementById('collections-list-add').value;
     console.log("Collection:" + selectedCollection);
     fullBookRecords = [];  
     selectedBooks.forEach((bookSelection)=>{
@@ -153,7 +153,34 @@ var newBook_idArray = (bookRecords)=>{
             console.log(res);
             return res.json();
         }).then((fullCollection)=>{
-            console.log(fullCollection);
+            document.getElementById('displayCollection').innerHTML = generateGollectionElement(fullCollection);
         })
      }
+ }
+
+ var generateGollectionElement = (collection)=>{
+     let bookList = '<ul>'
+     collection.books.forEach((book)=>{
+        bookList += generateCollectionBookListItem(book);
+     })
+    return `<h3>${collection.title}</h3> ${bookList}`;
+ }
+
+ var generateCollectionBookListItem = (bookObj)=>{
+    var title = `<span class='bookTitle'>${bookObj.title}</span>`
+    var authors = ''
+    if(bookObj.authors.length > 1){
+        for(i=0;i<bookObj.authors.length;i++){
+            if(i>0 && i<bookObj.authors.length - 1){
+                authors += `, ${bookObj.authors[i]},`
+            } else if(i===bookObj.authors.length - 1){
+                authors += ` and ${bookObj.authors[i]}`
+            }else {
+                authors += ` ${bookObj.authors[i]}`
+            }
+        }
+    } else {
+        authors += ` ${bookObj.authors[0]}`
+    }
+    return `<li>${title} by${authors}</li>`;
  }

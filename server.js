@@ -72,6 +72,9 @@ app.get('/collections/:collectionId', (req, res)=>{
 })
 
 //Why does this work??
+//Specifically, why does the Promise wait for
+//all of the findById response to be pushed
+//before resolving?
 var populateBookArray = (bookIds)=>{
     return new Promise((resolve, reject)=>{
         let populatedArray = [];
