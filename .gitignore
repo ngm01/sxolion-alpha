@@ -1,3 +1,4 @@
 views/home.hbs
 node_modules
 reference
+*.png
