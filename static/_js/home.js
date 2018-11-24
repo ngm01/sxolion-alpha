@@ -153,17 +153,20 @@ var newBook_idArray = (bookRecords)=>{
             console.log(res);
             return res.json();
         }).then((fullCollection)=>{
-            document.getElementById('displayCollection').innerHTML = generateGollectionElement(fullCollection);
+            document.getElementById('displayCollection').innerHTML = generateCollectionElement(fullCollection);
         })
      }
  }
 
- var generateGollectionElement = (collection)=>{
+ var generateCollectionElement = (collection)=>{
+     console.log(collection);
      let bookList = '<ul>'
      collection.books.forEach((book)=>{
         bookList += generateCollectionBookListItem(book);
      })
-    return `<h3>${collection.title}</h3> ${bookList}`;
+     let qrCode = `http://localhost:3000/qrcodes/${collection._id}.png`
+     let codeImg = `<img src='${qrCode}'>`
+    return `<h3>${collection.title}</h3> ${bookList} ${codeImg}`;
  }
 
  var generateCollectionBookListItem = (bookObj)=>{
