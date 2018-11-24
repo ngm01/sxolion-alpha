@@ -6,6 +6,7 @@ const ObjectId = require('mongoose').Types.ObjectId;
 const googleBooksApiRequest = require('./googlebooksapi');
 var {Collection} = require('./models/collection');
 var {Book} = require('./models/book');
+const qrcode = require('qrcode');
 
 const port = process.env.PORT || 3000;
 
@@ -42,8 +43,10 @@ app.post('/collections/create', (req, res)=>{
     var collection = new Collection({
         title: req.body.newCollectionTitle
     });
-    collection.save().then((success)=>{
-        console.log(success);
+    collection.save().then((successful)=>{
+        let collectionid = ObjectId(successful._id).toString();
+        generateQrCode(collectionid);
+
     }, (err)=>{
         res.status(400).send(err);
         console.log("Error:", err)
@@ -164,6 +167,26 @@ app.get('/books/:bookId', (req, res)=>{
 
 //DELETE book
 
+
+//assistance functions
+
+var generateQrCode = (collectionId)=>{
+    let filepath = path.join(__dirname + '/static/qrcodes/' + collectionId + '.png')
+    //let path = '/static/qrcodes/' + collectionId + ".png"
+    qrcode.toFile(filepath, collectionId, {
+        color: {
+            dark: '#111',
+            light: '#0000'
+        }
+    }, (err)=>{
+        if(err){
+            console.log("Error creating QR code:")
+            throw err;
+        } else {
+            console.log("Created QR code.");
+        }
+    });
+}
 
 app.listen(port, ()=>{
     console.log(`Listening on port ${port}`);
